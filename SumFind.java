@@ -1,28 +1,33 @@
+package Test_Codes;
 import java.util.*;
 public class SumFind {
-	void find() {
-		int a[]= {2,6,7,8,10,22,69};
-		System.out.println("Enter sum to search");
-		int x=new Scanner(System.in).nextInt();
-		boolean b=true;
-		int s=0;
-		int k=a.length-1;
-		while(s!=k) {
-			if(a[s]+a[k]==x) {
-				System.out.println("Sum found: "+a[s]+"+"+a[k]);
-				b=false;
-				break;
+	int subSum(int a[],int n,int sum) {
+			int s[][]=new int[n+1][sum+1];
+			s[0][0]=1;
+			for(int i=1;i<=sum;i++)
+				s[0][i]=0;
+			for(int i=1;i<=n;i++) {
+				for(int j=0;j<=sum;j++) {
+					if(a[i-1]>j) {
+							s[i][j]=s[i-1][j];
+					}
+					else {
+						s[i][j]=s[i-1][j]+s[i-1][j-a[i-1]];
+					}
+				}
 			}
-			else if(a[s]+a[k]>x)
-				k=k-1;
-			else
-				s=s+1;
-		}
-		if(b)
-			System.out.print("Sum not found");
+			return s[n][sum];
 	}
 	public static void main(String args[]) {
-		SumFind ob = new SumFind();
-		ob.find();
+			SumFind ob=new SumFind();
+			System.out.println("Enter number of array elements");
+			int n=new Scanner(System.in).nextInt();
+			int a[]=new int[n];
+			System.out.println("Enter array elements");
+			for(int i=0;i<n;i++)
+				a[i]=new Scanner(System.in).nextInt();
+			System.out.println("Enter sum");
+			int sum=ob.subSum(a, n, new Scanner(System.in).nextInt());
+			System.out.println(sum);
 	}
 }
